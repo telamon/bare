@@ -143,13 +143,17 @@ Emitted when the process or current thread resumes after suspension. Deferred an
 
 The `Bare.Addon` namespace provides support for loading native addons, which are typically written in C/C++ and distributed as shared libraries.
 
-#### `const addon = Addon.load(url)`
+#### `const addon = Addon.load(url[, options])`
 
 Load a static or dynamic native addon identified by `url`. If `url` is not a static native addon, Bare will instead look for a matching dynamic object library.
 
-#### `const unloaded = Addon.unload(url)`
+Options are reserved.
+
+#### `const unloaded = Addon.unload(url[, options])`
 
 Unload a dynamic native addon identified by `url`. If the function returns `true`, the addon was unloaded from memory. If it instead returns `false`, the addon is still in use by one or more threads and will only be unloaded from memory when those threads either exit or explicitly unload the addon.
+
+Options are reserved.
 
 #### `const url = Addon.resolve(specifier, parentURL[, options])`
 
@@ -262,6 +266,25 @@ When completed, the `bare(.exe)` binary will be available in the `build/bin` dir
 ### Linking
 
 When linking against the static `libbare.(a|lib)` library, make sure to use whole archive linking as Bare relies on constructor functions for registering native addons. Without whole archive linking, the linker will remove the constructor functions as they aren't referenced by anything.
+
+## Platform support
+
+Bare officially supports the platform targets for which it provides prebuilds as defined by the [`.github/workflows/prebuild.yml`](.github/workflows/prebuild.yml) workflow.
+
+| Platform  | Architecture | Version                              | Notes          |
+| :-------- | :----------- | :----------------------------------- | :------------- |
+| GNU/Linux | `arm64`      | >= Linux 5.15, >= GNU C Library 2.35 | Ubuntu 22.04   |
+| GNU/Linux | `x64`        | >= Linux 5.15, >= GNU C Library 2.35 | Ubuntu 22.04   |
+| Android   | `arm`        | >= 9                                 |
+| Android   | `arm64`      | >= 9                                 |
+| Android   | `ia32`       | >= 9                                 |
+| Android   | `x64`        | >= 9                                 |
+| macOS     | `arm64`      | >= 11.0                              |
+| macOS     | `x64`        | >= 11.0                              |
+| iOS       | `arm64`      | >= 14.0                              |
+| iOS       | `x64`        | >= 14.0                              | Simulator only |
+| Windows   | `arm64`      | >= Windows 11                        |
+| Windows   | `x64`        | >= Windows 10                        |
 
 ## Modules
 
