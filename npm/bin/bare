@@ -1,6 +1,15 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const bin = require('bare-runtime')(__filename)
+
+// Undocumented dev flag for easier integration with tooling.
+// example:
+// $ lldb $(bare -bin) -- script.js
+if (process.argv[2] === '-bin') {
+  console.log(bin)
+  process.exit(0)
+}
+
 try {
   fs.accessSync(bin, fs.constants.X_OK)
 } catch {
